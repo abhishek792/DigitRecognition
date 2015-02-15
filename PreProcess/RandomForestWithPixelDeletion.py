@@ -21,6 +21,8 @@ finalLoda = []
 
 trainData = train.loc[0:24998, columnNames]
 
+#Creation of trainData list out of trainData Data Frame by row wise extraction of values of every single column
+#and converting non zero values to 255
 trainDataCalTime = time.time()
 
 for j in range(0, NO_OF_TRAIN):
