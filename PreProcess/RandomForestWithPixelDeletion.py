@@ -80,14 +80,11 @@ predicted = rf.predict(testData)
 print("Time taken for real work ", time.time()- timeForRealWork)
 j = 0
 correctPrediction = 0
-k = 0
 for i in range(25000, 25000 + NO_OF_TEST):
-    k += 1
     if target[i] == predicted[j]:
         correctPrediction += 1
     j += 1
 
-print(correctPrediction)
 print('First three predictions are: ', predicted[0], predicted[1], predicted[2])
 
 print(float(correctPrediction)/NO_OF_TEST*100)
