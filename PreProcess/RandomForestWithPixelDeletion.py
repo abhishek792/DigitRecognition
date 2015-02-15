@@ -1,13 +1,15 @@
 __author__ = 'abchauhan + anavil :P'
 # import scipy
+import time
+start_time =  time.time()
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 
 
 REDUCTION = 3
 NO_OF_DATA = 42000
-NO_OF_TRAIN = 500
-NO_OF_TEST = 250
+NO_OF_TRAIN = 5000
+NO_OF_TEST = 2500
 
 columnNames = []
 for i in range(783):
@@ -19,25 +21,25 @@ finalLoda = []
 
 trainData = train.loc[0:24998, columnNames]
 
+trainDataCalTime = time.time()
+
 for j in range(0, NO_OF_TRAIN):
 
-    newImage= []
+    newImage = []
     for column in columnNames:
-        newImage.append(pd.Series(trainData[column]).iloc[j])
+        newImage.append(0 if 0 == pd.Series(trainData[column]).iloc[j] else 255)
 
-    newImage = newImage[28*REDUCTION:-28*REDUCTION]
 
+    newImage = newImage[28 * REDUCTION:-28 * REDUCTION]
     newArray = []
-    for columncutter in range(0,len(newImage), 28 ):
-        newArray.append(newImage[REDUCTION+columncutter:(28-REDUCTION)+columncutter])
-
-
+    for columncutter in range(0, len(newImage), 28):
+        newArray.append(newImage[REDUCTION + columncutter:(28 - REDUCTION) + columncutter])
     lodu = [item for sublist in newArray for item in sublist]
     # print("done again")
     finalLoda.append(lodu)
 
 trainData = finalLoda
-
+print("time to calculate train data ",time.time()- trainDataCalTime)
 
 
 # trainData = train.loc[0:24998, columnNames]  # Training set
@@ -49,44 +51,45 @@ testData = train.loc[25000:41999, columnNames]  # Cross-validation set
 
 finalLoda = []
 
+testDataCalcTime = time.time()
 for j in range(0, NO_OF_TEST):
-
-    newImage= []
+    newImage = []
     for column in columnNames:
-        newImage.append(pd.Series(testData[column]).iloc[j])
+        newImage.append(0 if pd.Series(testData[column]).iloc[j]==0 else 255)
 
-    newImage = newImage[28*REDUCTION:-28*REDUCTION]
+    newImage = newImage[28 * REDUCTION:-28 * REDUCTION]
 
     newArray = []
-    for columncutter in range(0,len(newImage), 28 ):
-        newArray.append(newImage[REDUCTION+columncutter:(28-REDUCTION)+columncutter])
-
+    for columncutter in range(0, len(newImage), 28):
+        newArray.append(newImage[REDUCTION + columncutter:(28 - REDUCTION) + columncutter])
 
     lodu = [item for sublist in newArray for item in sublist]
     # print("done again")
     finalLoda.append(lodu)
 
 testData = finalLoda
+print("time to calculate test data", time.time()- testDataCalcTime)
 
+timeForRealWork = time.time()
 rf = RandomForestClassifier(n_estimators=150, min_samples_split=2, n_jobs=-1)
 print('Fitting the data')
 rf.fit(trainData, targetData)
 print('Data fitted now predicting')
 predicted = rf.predict(testData)
 
+print("Time taken for real work ", time.time()- timeForRealWork)
 j = 0
 correctPrediction = 0
-k=0
-for i in range(25000, 25000+NO_OF_TEST):
-    k+=1
-    print(k)
+k = 0
+for i in range(25000, 25000 + NO_OF_TEST):
+    k += 1
     if target[i] == predicted[j]:
         correctPrediction += 1
     j += 1
-    
+
 print(correctPrediction)
 print('First three predictions are: ', predicted[0], predicted[1], predicted[2])
 
-correctPrediction/= 17000
-correctPrediction*=100
-print(correctPrediction)
+print(float(correctPrediction)/NO_OF_TEST*100)
+
+print("Execution time was ", time.time()-start_time)
