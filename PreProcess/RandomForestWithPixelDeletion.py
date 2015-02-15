@@ -51,11 +51,13 @@ testData = train.loc[25000:41999, columnNames]  # Cross-validation set
 
 finalLoda = []
 
+#Creation of testData list out of testData Data Frame by row wise extraction of values of every single column
+#and converting non zero values to 255
 testDataCalcTime = time.time()
 for j in range(0, NO_OF_TEST):
     newImage = []
     for column in columnNames:
-        newImage.append(0 if pd.Series(testData[column]).iloc[j]==0 else 255)
+        newImage.append(0 if pd.Series(testData[column]).iloc[j]==0 else 255) #value extraction and conversion to binary
 
     newImage = newImage[28 * REDUCTION:-28 * REDUCTION]
 
