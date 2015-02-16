@@ -1,5 +1,6 @@
 # DigitRecognition
-A python implementation of handwritten digit recognition using random forest.
+A python implementation of handwritten digit recognition.
+Problem details: https://www.kaggle.com/c/digit-recognizer
 Project has two parts: Implementation and Pre-processing. As of now, implementation part is having pre-processing in-built and 
 separate pre-processing is not done. One can still go through the Pre-processing folder.
 Two algorithms are implemented: Support Vector Machines and Random Forest Classifier. As pre-processing, we have clipped some 
