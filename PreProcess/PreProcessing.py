@@ -1,10 +1,7 @@
 __author__ = 'abchauhan'
-import numpy as np
-import csv
+#Some trivial preprocessing. Finding out columns which are always zero.
 import pandas as pd
 
-df = pd.read_csv('C:\example.csv')
-a = ['name', ' age']
 columnNames = []
 for i in range(783):
     columnNames.append('pixel' + str(i))
