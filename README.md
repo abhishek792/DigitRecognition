@@ -6,7 +6,7 @@ separate pre-processing is not done. One can still go through the Pre-processing
 Two algorithms are implemented: Support Vector Machines and Random Forest Classifier. As pre-processing, we have clipped some 
 pixels from all the four corners and all non-zero values have been converted to 255. In the separate Pre-processing folder, we
 identified one more strategy to remove all those pixels which have not been filled any time. However, that didn't yield any 
-signigicant improvement. 
+significant improvement. 
 
 Results:
 Benchmark Random Forest Classifier: 96.27%
