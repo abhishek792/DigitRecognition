@@ -1,4 +1,7 @@
-__author__ = 'abchauhan + anavil :P'
+from sklearn import svm
+#Deleting a fixed amount of pixels from an image (chopping image from all the corners) and
+#making all non zero values as 255.
+__author__ = 'abchauhan + anavil'
 # import scipy
 import time
 start_time =  time.time()
@@ -8,16 +11,16 @@ import pandas as pd
 
 REDUCTION = 3
 NO_OF_DATA = 42000
-NO_OF_TRAIN = 5000
-NO_OF_TEST = 2500
+NO_OF_TRAIN = 24999
+NO_OF_TEST = 16999
 
 columnNames = []
 for i in range(783):
     columnNames.append('pixel' + str(i))
 
-train = pd.read_csv('/home/anavil/Programming/DigitRecongnizer/train.csv')
+train = pd.read_csv('C:\\Users\\abchauhan\\Downloads\\train.csv')
 
-finalLoda = []
+finalProcessedData = []
 
 trainData = train.loc[0:24998, columnNames]
 
@@ -30,28 +33,23 @@ for j in range(0, NO_OF_TRAIN):
     newImage = []
     for column in columnNames:
         newImage.append(0 if 0 == pd.Series(trainData[column]).iloc[j] else 255)
-
-
     newImage = newImage[28 * REDUCTION:-28 * REDUCTION]
     newArray = []
-    for columncutter in range(0, len(newImage), 28):
-        newArray.append(newImage[REDUCTION + columncutter:(28 - REDUCTION) + columncutter])
-    lodu = [item for sublist in newArray for item in sublist]
-    # print("done again")
-    finalLoda.append(lodu)
+    for columnCutter in range(0, len(newImage), 28):
+        newArray.append(newImage[REDUCTION + columnCutter:(28 - REDUCTION) + columnCutter])
+    singleItem = [item for subList in newArray for item in subList]
+    finalProcessedData.append(singleItem)
 
-trainData = finalLoda
-print("time to calculate train data ",time.time()- trainDataCalTime)
+trainData = finalProcessedData
+print("Time to calculate train data ",time.time()- trainDataCalTime)
 
-
-# trainData = train.loc[0:24998, columnNames]  # Training set
 target = train['label']
 print('First three true labels are: ', target[25000], target[25001], target[25002])
-targetData = target[0:NO_OF_TRAIN]  # I have one doubt here can discuss on phone.
+targetData = target[0:NO_OF_TRAIN]
 
 testData = train.loc[25000:41999, columnNames]  # Cross-validation set
 
-finalLoda = []
+finalProcessedData = []
 
 #Creation of testData list out of testData Data Frame by row wise extraction of values of every single column
 #and converting non zero values to 255
@@ -64,22 +62,25 @@ for j in range(0, NO_OF_TEST):
     newImage = newImage[28 * REDUCTION:-28 * REDUCTION]
 
     newArray = []
-    for columncutter in range(0, len(newImage), 28):
-        newArray.append(newImage[REDUCTION + columncutter:(28 - REDUCTION) + columncutter])
+    for columnCutter in range(0, len(newImage), 28):
+        newArray.append(newImage[REDUCTION + columnCutter:(28 - REDUCTION) + columnCutter])
 
-    lodu = [item for sublist in newArray for item in sublist]
+    singleItem = [item for sublist in newArray for item in sublist]
     # print("done again")
-    finalLoda.append(lodu)
+    finalProcessedData.append(singleItem)
 
-testData = finalLoda
+testData = finalProcessedData
 print("time to calculate test data", time.time()- testDataCalcTime)
 
 timeForRealWork = time.time()
-rf = RandomForestClassifier(n_estimators=150, min_samples_split=2, n_jobs=-1)
+rf = RandomForestClassifier(n_estimators=150, min_samples_split=2, n_jobs=-1) #For random forest
+#classifier = svm.SVC(C=10000, gamma=0.0000001) #For SVM
 print('Fitting the data')
-rf.fit(trainData, targetData)
+rf.fit(trainData, targetData) #For random forest
+#classifier.fit(trainData, targetData) #For SVM
 print('Data fitted now predicting')
-predicted = rf.predict(testData)
+predicted = rf.predict(testData) #For random forest
+#predicted = classifier.predict(testData) #For SVM
 
 print("Time taken for real work ", time.time()- timeForRealWork)
 j = 0

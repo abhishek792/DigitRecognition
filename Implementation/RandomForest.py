@@ -1,4 +1,5 @@
 __author__ = 'abchauhan'
+#Benchmark implementation of Random forest
 import scipy
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
@@ -11,7 +12,7 @@ train = pd.read_csv('C:\\Users\\abchauhan\\Downloads\\train.csv')
 trainData = train.loc[0:24998, columnNames]  # Training set
 target = train['label']
 print('First three true labels are: ', target[25000], target[25001], target[25002])
-targetData = target[0:24999]  # I have one doubt here can discuss on phone.
+targetData = target[0:24999]
 testData = train.loc[25000:41999, columnNames]  # Cross-validation set
 
 rf = RandomForestClassifier(n_estimators=150, min_samples_split=2, n_jobs=-1)

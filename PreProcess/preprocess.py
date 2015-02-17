@@ -1,4 +1,4 @@
-
+#Converting given data to actual image for the sake of understanding the data well.
 import matplotlib.pyplot as plt
 import matplotlib.cbook as cbook
 from PIL import Image
@@ -6,7 +6,7 @@ import numpy
 #import csv
 import pandas as pd
 
-train = pd.read_csv('/home/anavil/Programming/DigitRecongnizer/train.csv')
+train = pd.read_csv('C:\\Users\\abchauhan\\Downloads\\train.csv')
 
 columnNames = []
 for i in range(784):

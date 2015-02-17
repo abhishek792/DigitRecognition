@@ -17,7 +17,7 @@ columnNames = []
 for i in range(783):
     columnNames.append('pixel' + str(i))
 
-train = pd.read_csv('/home/anavil/Programming/DigitRecongnizer/train.csv')
+train = pd.read_csv('C:\\Users\\abchauhan\\Downloads\\train.csv')
 
 trainData = train.loc[0:NO_OF_TRAIN-1, columnNames]  # Training set
 target = train['label']
